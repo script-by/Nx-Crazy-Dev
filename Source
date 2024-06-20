@@ -20,6 +20,7 @@ local OrionLib = {
                         Divider = Color3.fromRGB(60, 60, 60),     -- Gris oscuro
                         Text = Color3.fromRGB(0, 0, 0),           -- Negro
                         TextDark = Color3.fromRGB(255, 255, 255)  -- Blanco (en lugar de gris claro)
+                }
 	},
 	SelectedTheme = "Default",
 	Folder = nil,
