@@ -8,7 +8,7 @@ if (_G.EXC ~= nil) then
 	warn("already executed")
 	return 
 else 
-	_G.EXC = "@trans"
+	_G.EXC = "Nx Crazy Dev"
 end
 
 
