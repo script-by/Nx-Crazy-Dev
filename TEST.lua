@@ -28,12 +28,12 @@ screenGui.Name = "AimbotGUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = player.PlayerGui
 
-local toggleButton = Instance.new("TextButton")
+-- Crear el ImageButton con esquinas redondeadas
+local toggleButton = Instance.new("ImageButton")
 toggleButton.Size = UDim2.new(0, 150, 0, 50)
 toggleButton.Position = UDim2.new(1, -160, 0, 10)
-toggleButton.Text = "Toggle Aimbot"
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Image = "rbxassetid://82986318131079"  -- Imagen cuando está desactivado
+toggleButton.BackgroundTransparency = 1
 toggleButton.BorderSizePixel = 0
 toggleButton.Parent = screenGui
 
@@ -82,14 +82,12 @@ toggleButton.MouseButton1Click:Connect(function()
         targetPlayer = getPlayerInCenterOfScreen()
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild(settings.AimPart) then
             print("Target acquired: " .. targetPlayer.Name)
-            toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-            toggleButton.Text = "Aimbot ON"
+            toggleButton.Image = "rbxassetid://131591401438878"  -- Imagen cuando está activado
         else
             print("No target found.")
         end
     else
-        toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-        toggleButton.Text = "Toggle Aimbot"
+        toggleButton.Image = "rbxassetid://82986318131079"  -- Imagen cuando está desactivado
     end
 end)
 
