@@ -30,8 +30,8 @@ screenGui.Parent = player.PlayerGui
 
 -- Crear el ImageButton con esquinas redondeadas
 local toggleButton = Instance.new("ImageButton")
-toggleButton.Size = UDim2.new(0, 150, 0, 50)
-toggleButton.Position = UDim2.new(1, -160, 0, 10)
+toggleButton.Size = UDim2.new(0, 100, 0, 50)  -- Ajusta el tamaño
+toggleButton.Position = UDim2.new(1, -110, 0, 10)
 toggleButton.Image = "rbxassetid://82986318131079"  -- Imagen cuando está desactivado
 toggleButton.BackgroundTransparency = 1
 toggleButton.BorderSizePixel = 0
@@ -41,6 +41,15 @@ toggleButton.Parent = screenGui
 local buttonCorner = Instance.new("UICorner")
 buttonCorner.CornerRadius = UDim.new(0, 10) -- Ajusta el radio del redondeo
 buttonCorner.Parent = toggleButton
+
+-- Crear el botón de deslizar
+local dragButton = Instance.new("ImageButton")
+dragButton.Size = UDim2.new(0, 20, 0, 20)  -- Tamaño del botón de deslizar
+dragButton.Position = UDim2.new(1, -30, 0, 10) -- Posición del botón de deslizar
+dragButton.Image = "rbxassetid://132296047"  -- ID de la imagen de la flecha (puedes cambiarlo por el ID que prefieras)
+dragButton.BackgroundTransparency = 1
+dragButton.BorderSizePixel = 0
+dragButton.Parent = screenGui
 
 -- Función para encontrar el jugador en el centro de la pantalla
 local function getPlayerInCenterOfScreen()
@@ -90,6 +99,37 @@ toggleButton.MouseButton1Click:Connect(function()
         toggleButton.Image = "rbxassetid://82986318131079"  -- Imagen cuando está desactivado
     end
 end)
+
+-- Función para hacer que el GUI sea arrastrable
+local function makeDraggable(gui, dragButton)
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+
+    dragButton.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = gui.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    dragButton.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+            local delta = input.Position - dragStart
+            gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+end
+
+-- Hacer el GUI arrastrable
+makeDraggable(screenGui, dragButton)
 
 -- Actualización de la posición de la cámara para simular el CAM Look con predicción
 game:GetService("RunService").RenderStepped:Connect(function()
