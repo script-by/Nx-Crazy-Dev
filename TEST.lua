@@ -4,7 +4,7 @@ local settings = getgenv().Camlock_Settings
 -- Definir valores esperados para evitar modificaciones
 local expectedVersion = "2.5.1"
 local expectedCredits = "nxcrazy.dev"
-local expectedDiscordServer = "discord.gg/ZmEYzHgttd"
+local expectedDiscordServer = "discord.gg/CjYnjUWZRt"
 
 -- Verificar si los valores de configuración son correctos
 if settings.Version ~= expectedVersion or
