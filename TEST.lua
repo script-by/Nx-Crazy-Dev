@@ -1,3 +1,4 @@
+
 -- Script externo que utiliza la configuración global
 local settings = getgenv().Camlock_Settings
 
@@ -54,16 +55,6 @@ local buttonCorner = Instance.new("UICorner")
 buttonCorner.CornerRadius = UDim.new(0, 10) -- Ajusta el radio del redondeo
 buttonCorner.Parent = toggleButton
 
--- Crear el botón de deslizar con el signo de "+"
-local dragButton = Instance.new("TextButton")
-dragButton.Size = UDim2.new(0, 30, 0, 30)  -- Tamaño del botón de deslizar
-dragButton.Position = UDim2.new(1, -40, 0, 10) -- Posición del botón de deslizar
-dragButton.Text = "+"  -- Texto del signo "+"
-dragButton.TextScaled = true
-dragButton.BackgroundTransparency = 1
-dragButton.BorderSizePixel = 0
-dragButton.Parent = screenGui
-
 -- Función para encontrar el jugador en el centro de la pantalla
 local function getPlayerInCenterOfScreen()
     local centerScreenPosition = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
@@ -113,45 +104,31 @@ toggleButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Función para hacer que el GUI sea arrastrable
-local function makeDraggable(gui, dragButton)
-    local dragging
-    local dragInput
-    local dragStart
-    local startPos
+-- Función para suavizar el movimiento de la cámara
+local function smoothAim(targetPosition)
+    local currentCameraPos = camera.CFrame.Position
+    local direction = (targetPosition - currentCameraPos).unit
+    local distance = (targetPosition - currentCameraPos).magnitude
+    local smoothFactor = settings.Smoothing[1]  -- Factor de suavizado
 
-    dragButton.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStart = input.Position
-            startPos = gui.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
+    -- Calcula la nueva posición de la cámara con suavizado
+    local newCameraPos = currentCameraPos + (direction * (distance * smoothFactor))
 
-    dragButton.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
-            local delta = input.Position - dragStart
-            gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-        end
-    end)
+    return newCameraPos
 end
 
--- Hacer el GUI arrastrable
-makeDraggable(screenGui, dragButton)
-
--- Actualización de la posición de la cámara para simular el CAM Look con predicción
+-- Actualización de la posición de la cámara para simular el CAM Look con predicción y suavizado
 game:GetService("RunService").RenderStepped:Connect(function()
     if aimbotEnabled then
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild(settings.AimPart) then
             local predictedPos = predictTargetPosition(targetPlayer)
             if predictedPos then
-                -- Ajustar la cámara para mirar hacia la posición predicha del objetivo
-                camera.CFrame = CFrame.lookAt(camera.CFrame.Position, predictedPos)
+                if settings.Smoothing[2] then  -- Si el suavizado está activado
+                    local smoothPos = smoothAim(predictedPos)
+                    camera.CFrame = CFrame.lookAt(camera.CFrame.Position, smoothPos)
+                else
+                    camera.CFrame = CFrame.lookAt(camera.CFrame.Position, predictedPos)
+                end
             end
         end
     end
