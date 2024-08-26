@@ -54,11 +54,12 @@ local buttonCorner = Instance.new("UICorner")
 buttonCorner.CornerRadius = UDim.new(0, 10) -- Ajusta el radio del redondeo
 buttonCorner.Parent = toggleButton
 
--- Crear el botón de deslizar con la flecha
-local dragButton = Instance.new("ImageButton")
+-- Crear el botón de deslizar con el signo de "+"
+local dragButton = Instance.new("TextButton")
 dragButton.Size = UDim2.new(0, 30, 0, 30)  -- Tamaño del botón de deslizar
 dragButton.Position = UDim2.new(1, -40, 0, 10) -- Posición del botón de deslizar
-dragButton.Image = "rbxassetid://132296047"  -- ID de la imagen de la flecha (puedes cambiarlo por el ID que prefieras)
+dragButton.Text = "+"  -- Texto del signo "+"
+dragButton.TextScaled = true
 dragButton.BackgroundTransparency = 1
 dragButton.BorderSizePixel = 0
 dragButton.Parent = screenGui
