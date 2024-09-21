@@ -190,7 +190,7 @@ function Library:Window(titletext,MainColor)
     Title.Font = Enum.Font.GothamBold
     Title.TextColor3 = MainColor
     Title.TextScaled = true
-    Title.TextSize = 14
+    Title.TextSize = 20
     Title.TextWrapped = true
     Title.TextXAlignment = Enum.TextXAlignment.Left
     Title.Size = UDim2.new(0,Title.TextBounds.X,0,27)
